@@ -38,6 +38,7 @@
   ],
   "exclude": [
     "node_modules",
-    "myy_portfolio"
+    "myy_portfolio",
+    "functions"
   ]
 }
