@@ -7,54 +7,69 @@ interface Message {
     content: string;
 }
 
-// Format message content - parse markdown and make links clickable
+// Format message content - parse markdown, make links clickable, handle newlines
 function formatMessage(content: string): React.ReactNode {
-    // Split content into parts, preserving URLs and bold text
-    const parts: React.ReactNode[] = [];
+    // Split by newlines first
+    const lines = content.split('\n');
 
-    // Combined regex for URLs and bold text
-    const regex = /(https?:\/\/[^\s]+)|\*\*([^*]+)\*\*/g;
-    let lastIndex = 0;
-    let match;
-    let keyIndex = 0;
+    const processLine = (line: string, lineIndex: number): React.ReactNode => {
+        const parts: React.ReactNode[] = [];
 
-    while ((match = regex.exec(content)) !== null) {
-        // Add text before the match
-        if (match.index > lastIndex) {
-            parts.push(content.slice(lastIndex, match.index));
+        // Combined regex for URLs and bold text
+        const regex = /(https?:\/\/[^\s]+)|\*\*([^*]+)\*\*/g;
+        let lastIndex = 0;
+        let match;
+        let keyIndex = 0;
+
+        while ((match = regex.exec(line)) !== null) {
+            // Add text before the match
+            if (match.index > lastIndex) {
+                parts.push(line.slice(lastIndex, match.index));
+            }
+
+            if (match[1]) {
+                // URL match
+                parts.push(
+                    <a
+                        key={`${lineIndex}-${keyIndex++}`}
+                        href={match[1]}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-violet-600 dark:text-violet-400 underline hover:text-violet-800 dark:hover:text-violet-300 break-all"
+                    >
+                        {match[1]}
+                    </a>
+                );
+            } else if (match[2]) {
+                // Bold text match - render as styled span without asterisks
+                parts.push(
+                    <span key={`${lineIndex}-${keyIndex++}`} className="font-semibold">
+                        {match[2]}
+                    </span>
+                );
+            }
+
+            lastIndex = match.index + match[0].length;
         }
 
-        if (match[1]) {
-            // URL match
-            parts.push(
-                <a
-                    key={keyIndex++}
-                    href={match[1]}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-violet-600 dark:text-violet-400 underline hover:text-violet-800 dark:hover:text-violet-300"
-                >
-                    {match[1]}
-                </a>
-            );
-        } else if (match[2]) {
-            // Bold text match - render as styled span without asterisks
-            parts.push(
-                <span key={keyIndex++} className="font-semibold">
-                    {match[2]}
+        // Add remaining text
+        if (lastIndex < line.length) {
+            parts.push(line.slice(lastIndex));
+        }
+
+        return parts.length > 0 ? parts : line;
+    };
+
+    return (
+        <>
+            {lines.map((line, index) => (
+                <span key={index}>
+                    {processLine(line, index)}
+                    {index < lines.length - 1 && <br />}
                 </span>
-            );
-        }
-
-        lastIndex = match.index + match[0].length;
-    }
-
-    // Add remaining text
-    if (lastIndex < content.length) {
-        parts.push(content.slice(lastIndex));
-    }
-
-    return parts.length > 0 ? parts : content;
+            ))}
+        </>
+    );
 }
 
 export default function ChatWidget() {

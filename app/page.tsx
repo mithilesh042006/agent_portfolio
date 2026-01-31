@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, limit, doc, getDoc } from "firebase/firestore";
 import { getFirestoreDb } from "@/lib/firebase";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -25,15 +25,34 @@ interface Skill {
   proficiencyLevel: string;
 }
 
+interface ProfileSettings {
+  profileImageUrl: string;
+  name: string;
+  title: string;
+  bio: string;
+}
+
 export default function Home() {
   const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
   const [previewSkills, setPreviewSkills] = useState<Skill[]>([]);
+  const [profile, setProfile] = useState<ProfileSettings>({
+    profileImageUrl: "",
+    name: "Mithilesh",
+    title: "Software Developer",
+    bio: "I build beautiful, functional, and scalable web applications. Passionate about clean code, modern technologies, and creating exceptional user experiences.",
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const db = getFirestoreDb();
+
+        // Fetch profile settings
+        const profileDoc = await getDoc(doc(db, "settings", "profile"));
+        if (profileDoc.exists()) {
+          setProfile(profileDoc.data() as ProfileSettings);
+        }
 
         // Fetch featured projects (limit to 3)
         const projectsRef = collection(db, "projects");
@@ -71,50 +90,75 @@ export default function Home() {
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="max-w-3xl">
-            {/* Greeting Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-medium mb-6">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-500 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-600"></span>
-              </span>
-              Available for new opportunities
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+            {/* Text Content */}
+            <div className="flex-1 text-center lg:text-left">
+              {/* Greeting Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-medium mb-6">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-500 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-600"></span>
+                </span>
+                Available for new opportunities
+              </div>
+
+              {/* Main Heading */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-zinc-100 leading-tight mb-6">
+                Hi, I&apos;m{" "}
+                <span className="bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                  {profile.name}
+                </span>
+              </h1>
+
+              <p className="text-xl sm:text-2xl text-zinc-600 dark:text-zinc-400 mb-4">
+                {profile.title}
+              </p>
+
+              <p className="text-lg text-zinc-500 dark:text-zinc-500 max-w-2xl mb-8 mx-auto lg:mx-0">
+                {profile.bio}
+              </p>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                <Link
+                  href="/projects"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-medium hover:shadow-lg hover:shadow-violet-500/30 hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  View My Work
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                >
+                  Get in Touch
+                </Link>
+              </div>
             </div>
 
-            {/* Main Heading */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-zinc-100 leading-tight mb-6">
-              Hi, I&apos;m{" "}
-              <span className="bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                Mithilesh
-              </span>
-            </h1>
-
-            <p className="text-xl sm:text-2xl text-zinc-600 dark:text-zinc-400 mb-4">
-              Full-Stack Developer
-            </p>
-
-            <p className="text-lg text-zinc-500 dark:text-zinc-500 max-w-2xl mb-8">
-              I build beautiful, functional, and scalable web applications. Passionate about clean code,
-              modern technologies, and creating exceptional user experiences.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap gap-4">
-              <Link
-                href="/projects"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-medium hover:shadow-lg hover:shadow-violet-500/30 hover:-translate-y-0.5 transition-all duration-200"
-              >
-                View My Work
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-              >
-                Get in Touch
-              </Link>
+            {/* Profile Image */}
+            <div className="flex-shrink-0">
+              <div className="relative">
+                {/* Decorative ring */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600 blur-xl opacity-30 animate-pulse"></div>
+                <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full border-4 border-violet-500/30 overflow-hidden bg-gradient-to-br from-violet-500/20 to-indigo-600/20">
+                  {profile.profileImageUrl ? (
+                    <img
+                      src={profile.profileImageUrl}
+                      alt={profile.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-violet-500 to-indigo-600">
+                      <span className="text-8xl sm:text-9xl font-bold text-white/80">
+                        {profile.name.charAt(0)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
