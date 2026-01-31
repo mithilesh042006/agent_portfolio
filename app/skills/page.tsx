@@ -78,7 +78,7 @@ export default function SkillsPage() {
     const categories = Object.keys(skillsByCategory);
 
     return (
-        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
+        <div className="min-h-screen">
             <Navbar />
 
             {/* Header */}

@@ -50,7 +50,7 @@ export default function Footer() {
                     {/* Quick Links */}
                     <div>
                         <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Quick Links</h3>
-                        <ul className="space-y-2">
+                        <ul className="flex flex-wrap gap-4">
                             {footerLinks.map((link) => (
                                 <li key={link.href}>
                                     <Link

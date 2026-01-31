@@ -84,7 +84,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
+    <div className="min-h-screen">
       <Navbar />
 
       {/* Hero Section */}
@@ -260,23 +260,34 @@ export default function Home() {
       </section>
 
       {/* Contact CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-violet-600 to-indigo-700">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Let&apos;s Work Together
-          </h2>
-          <p className="text-lg text-violet-100 mb-8 max-w-2xl mx-auto">
-            Have a project in mind? I&apos;d love to hear about it. Let&apos;s discuss how we can bring your ideas to life.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-violet-700 font-semibold hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
-          >
-            Start a Conversation
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-          </Link>
+      <section className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Background elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-900/90 via-indigo-900/90 to-purple-900/90" />
+        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+
+        {/* Floating orbs */}
+        <div className="absolute top-10 left-10 w-32 h-32 bg-violet-500/30 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-10 right-10 w-40 h-40 bg-indigo-500/30 rounded-full blur-3xl animate-pulse animation-delay-2000" />
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          {/* Glass card */}
+          <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-10 sm:p-12 border border-white/20 shadow-2xl">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+              Let&apos;s Work Together
+            </h2>
+            <p className="text-lg sm:text-xl text-violet-100/90 mb-8 max-w-2xl mx-auto">
+              Have a project in mind? I&apos;d love to hear about it. Let&apos;s discuss how we can bring your ideas to life.
+            </p>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-violet-700 font-semibold hover:bg-violet-50 hover:shadow-xl hover:shadow-violet-500/20 hover:-translate-y-1 transition-all duration-300"
+            >
+              Start a Conversation
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+            </Link>
+          </div>
         </div>
       </section>
 
