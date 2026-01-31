@@ -1,0 +1,60 @@
+mutation CreateDemoData @transaction @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public for demonstration purposes") {
+  user_insertMany(data: [
+    {
+      id: "550e8400-e29b-41d4-a716-446655440000",
+      name: "demouser1",
+      email: "demouser1@example.com",
+      createdAt: "2024-01-01T00:00:00Z"
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440001",
+      name: "demouser2",
+      email: "demouser2@example.com",
+      createdAt: "2024-01-01T00:00:00Z"
+    }
+  ])
+  skill_insertMany(data: [
+    {
+      userId: "550e8400-e29b-41d4-a716-446655440000",
+      name: "JavaScript",
+      createdAt: "2024-01-01T00:00:00Z"
+    },
+    {
+      userId: "550e8400-e29b-41d4-a716-446655440001",
+      name: "Python",
+      createdAt: "2024-01-01T00:00:00Z"
+    }
+  ])
+  project_insertMany(data: [
+    {
+      userId: "550e8400-e29b-41d4-a716-446655440000",
+      title: "Portfolio Website",
+      description: "Personal portfolio website",
+      createdAt: "2024-01-01T00:00:00Z"
+    },
+    {
+      userId: "550e8400-e29b-41d4-a716-446655440001",
+      title: "Data Analysis Project",
+      description: "Data analysis project using Python",
+      createdAt: "2024-01-01T00:00:00Z"
+    }
+  ])
+  experience_insertMany(data: [
+    {
+      userId: "550e8400-e29b-41d4-a716-446655440000",
+      institutionOrCompany: "Example Corp",
+      title: "Software Engineer",
+      startDate: "2020-01-01",
+      createdAt: "2024-01-01T00:00:00Z",
+      updatedAt: "2024-01-01T00:00:00Z"
+    },
+    {
+      userId: "550e8400-e29b-41d4-a716-446655440001",
+      institutionOrCompany: "Another Corp",
+      title: "Data Scientist",
+      startDate: "2022-01-01",
+      createdAt: "2024-01-01T00:00:00Z",
+      updatedAt: "2024-01-01T00:00:00Z"
+    }
+  ])
+}

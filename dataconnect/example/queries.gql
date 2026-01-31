@@ -1,0 +1,29 @@
+mutation CreateUser @auth(level: USER) {
+  user_insert(data: {
+    name: "New User",
+    email: "newuser@example.com",
+    createdAt_expr: "request.time"
+  })
+}
+
+query GetProjects @auth(level: USER) {
+  projects {
+    id
+    title
+    description
+  }
+}
+
+mutation UpdateSkill($id: UUID!, $proficiencyLevel: String) @auth(level: USER) {
+  skill_update(
+    key: { id: $id }
+    data: { proficiencyLevel: $proficiencyLevel }
+  )
+}
+
+query ListPublicUsers @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  users {
+    id
+    name
+  }
+}
