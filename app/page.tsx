@@ -165,7 +165,7 @@ export default function Home() {
       </section>
 
       {/* Featured Projects Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-zinc-900/50">
+      {/* <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-zinc-900/50"> */}
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-12">
             <div>
@@ -215,7 +215,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-      </section>
+      {/* </section> */}
 
       {/* Skills Preview Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
@@ -256,13 +256,13 @@ export default function Home() {
               </svg>
             </Link>
           </div>
-        </div>
+        </div>    
       </section>
 
-      {/* Contact CTA Section */}
+      {/* Contact CTA Section */}   
       <section className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         {/* Background elements */}
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-900/90 via-indigo-900/90 to-purple-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-00/90 via-indigo-000/90 to-purple-900/90" />
         <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)', backgroundSize: '24px 24px' }} />
 
         {/* Floating orbs */}
@@ -273,7 +273,7 @@ export default function Home() {
           {/* Glass card */}
           <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-10 sm:p-12 border border-white/20 shadow-2xl">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-              Let&apos;s Work Together
+              Let&apos;s Work Together                        
             </h2>
             <p className="text-lg sm:text-xl text-violet-100/90 mb-8 max-w-2xl mx-auto">
               Have a project in mind? I&apos;d love to hear about it. Let&apos;s discuss how we can bring your ideas to life.

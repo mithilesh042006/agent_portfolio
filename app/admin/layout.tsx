@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
 import AuthGuard from "@/components/AuthGuard";
 
@@ -66,6 +67,7 @@ const navItems = [
 function AdminLayoutContent({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const { user, logout } = useAuth();
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const isLoginPage = pathname === "/admin/login";
 
     // Login page - render without sidebar/auth guard
@@ -76,16 +78,33 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
     return (
         <AuthGuard>
             <div className="min-h-screen bg-zinc-100 dark:bg-zinc-950">
+                {/* Mobile overlay */}
+                {sidebarOpen && (
+                    <div
+                        className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+                        onClick={() => setSidebarOpen(false)}
+                    />
+                )}
+
                 {/* Sidebar */}
-                <aside className="fixed left-0 top-0 h-full w-64 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 z-40">
+                <aside className={`fixed left-0 top-0 h-full w-64 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 z-50 transform transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                     {/* Logo */}
-                    <div className="h-16 flex items-center px-6 border-b border-zinc-200 dark:border-zinc-800">
+                    <div className="h-16 flex items-center justify-between px-4 lg:px-6 border-b border-zinc-200 dark:border-zinc-800">
                         <Link
                             href="/admin"
                             className="text-xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent"
                         >
                             Admin Panel
                         </Link>
+                        {/* Close button for mobile */}
+                        <button
+                            onClick={() => setSidebarOpen(false)}
+                            className="lg:hidden p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                        >
+                            <svg className="w-5 h-5 text-zinc-600 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                     </div>
 
                     {/* Navigation */}
@@ -96,6 +115,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                                 <Link
                                     key={item.href}
                                     href={item.href}
+                                    onClick={() => setSidebarOpen(false)}
                                     className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${isActive
                                         ? "bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300"
                                         : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800"
@@ -111,7 +131,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                     {/* User section */}
                     <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-zinc-200 dark:border-zinc-800">
                         <div className="flex items-center gap-3 mb-3">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center text-white font-semibold">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center text-white font-semibold flex-shrink-0">
                                 {user?.email?.charAt(0).toUpperCase() || "A"}
                             </div>
                             <div className="flex-1 min-w-0">
@@ -134,9 +154,18 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                 </aside>
 
                 {/* Main Content */}
-                <main className="ml-64 min-h-screen">
+                <main className="lg:ml-64 min-h-screen">
                     {/* Header */}
-                    <header className="h-16 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between px-8">
+                    <header className="h-16 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between px-4 lg:px-8 sticky top-0 z-30">
+                        {/* Mobile menu button */}
+                        <button
+                            onClick={() => setSidebarOpen(true)}
+                            className="lg:hidden p-2 -ml-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                        >
+                            <svg className="w-6 h-6 text-zinc-600 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
                         <h1 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
                             {navItems.find((item) => item.href === pathname)?.label || "Dashboard"}
                         </h1>
@@ -145,7 +174,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                             target="_blank"
                             className="text-sm text-zinc-500 hover:text-violet-600 transition-colors flex items-center gap-1"
                         >
-                            View Site
+                            <span className="hidden sm:inline">View Site</span>
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                             </svg>
@@ -153,7 +182,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                     </header>
 
                     {/* Page Content */}
-                    <div className="p-8">{children}</div>
+                    <div className="p-4 lg:p-8">{children}</div>
                 </main>
             </div>
         </AuthGuard>
@@ -167,4 +196,3 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </AuthProvider>
     );
 }
-

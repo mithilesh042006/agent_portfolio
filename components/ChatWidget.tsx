@@ -146,9 +146,9 @@ export default function ChatWidget() {
             {/* Chat Toggle Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`fixed bottom-6 right-6 z-50 p-4 rounded-full shadow-lg transition-all duration-300 ${isOpen
-                    ? "bg-zinc-800 dark:bg-zinc-700 rotate-0"
-                    : "bg-gradient-to-r from-violet-600 to-indigo-600 hover:shadow-xl hover:shadow-violet-500/30 hover:scale-105"
+                className={`group fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-full shadow-lg transition-all duration-300 ${isOpen
+                    ? "bg-zinc-800 dark:bg-zinc-700 p-4"
+                    : "bg-gradient-to-r from-violet-600 to-indigo-600 hover:shadow-xl hover:shadow-violet-500/30 p-4 hover:pr-5"
                     }`}
             >
                 {isOpen ? (
@@ -156,9 +156,14 @@ export default function ChatWidget() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 ) : (
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                    </svg>
+                    <>
+                        <svg className="w-6 h-6 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                        <span className="max-w-0 overflow-hidden whitespace-nowrap text-white text-sm font-medium transition-all duration-300 group-hover:max-w-xs group-hover:pr-1">
+                            Chat with Mithilesh&apos;s AI
+                        </span>
+                    </>
                 )}
             </button>
 

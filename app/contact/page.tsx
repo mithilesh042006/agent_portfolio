@@ -208,7 +208,7 @@ export default function ContactPage() {
                                 </a>
 
                                 <a
-                                    href="https://github.com/mithilesh"
+                                    href="https://github.com/mithilesh042006"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-violet-500/50 transition-colors group"
@@ -220,12 +220,12 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <p className="text-sm text-zinc-500 dark:text-zinc-500">GitHub</p>
-                                        <p className="font-medium text-zinc-900 dark:text-zinc-100">github.com/mithilesh</p>
+                                        <p className="font-medium text-zinc-900 dark:text-zinc-100">github.com/mithilesh042006</p>
                                     </div>
                                 </a>
 
                                 <a
-                                    href="https://linkedin.com/in/mithilesh"
+                                    href="https://github.com/mithilesh042006"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-violet-500/50 transition-colors group"
@@ -237,7 +237,7 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <p className="text-sm text-zinc-500 dark:text-zinc-500">LinkedIn</p>
-                                        <p className="font-medium text-zinc-900 dark:text-zinc-100">linkedin.com/in/mithilesh</p>
+                                        <p className="font-medium text-zinc-900 dark:text-zinc-100">linkedin.com/in/mithilesh-k-a0295632b/</p>
                                     </div>
                                 </a>
                             </div>
